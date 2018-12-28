@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.Extensions.Options
 @inject IAuthenticationSchemeProvider SchemeProvider
-@inject IOptionsMonitor<SimpleOptions> Options
+@inject IOptionsMonitor<AuthenticationSchemeOptions> Options
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -15,7 +15,21 @@
             var schemes = await SchemeProvider.GetAllSchemesAsync();
             foreach (var scheme in schemes)
             {
-                <li><b>Scheme:</b> @scheme.Name -- <b>Handler:</b> @scheme.HandlerType.Name <b>DisplayMessage:</b> @Options.Get(scheme.Name).DisplayMessage <a asp-area="" asp-controller="Auth" asp-action="Remove" asp-route-scheme="@scheme.Name">Remove</a></li>
+	            var option = Options.Get(scheme.Name);
+	            <li>
+		            <b>Scheme:</b> @scheme.Name -- <b>Handler:</b> @scheme.HandlerType.Name <a asp-area="" asp-controller="Auth" asp-action="Remove" asp-route-scheme="@scheme.Name">Remove</a>
+		            <ul>
+			            <li><b>ClaimsIssuer:</b> @option.ClaimsIssuer</li>
+			            <li><b>ForwardAuthenticate:</b> @option.ForwardAuthenticate</li>
+			            <li><b>ForwardChallenge:</b> @option.ForwardChallenge</li>
+						<li><b>ForwardDefault:</b> @option.ForwardDefault</li>
+			            <li><b>ForwardForbid:</b> @option.ForwardForbid</li>
+			            <li><b>ForwardSignIn:</b> @option.ForwardSignIn</li>
+			            <li><b>ForwardSignOut:</b> @option.ForwardSignOut</li>
+			            <li><b>ToString:</b> @option.ToString()</li>
+			            <li><b>Type:</b> @option.GetType().FullName</li>
+		            </ul>
+	            </li>
             }
         }
     </ul>

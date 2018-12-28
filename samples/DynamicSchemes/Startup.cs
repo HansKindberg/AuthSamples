@@ -23,7 +23,14 @@ namespace AuthSamples.DynamicSchemes
         {
             services.AddMvc();
             services.AddAuthentication()
-                .AddScheme<SimpleOptions, SimpleAuthHandler>("fromStartup1", o => o.DisplayMessage = "I am from startup..")
+	            .AddGoogle("Google", options =>
+	            {
+		            options.SignInScheme = "Kalle";
+
+		            options.ClientId = "708996912208-9m4dkjb5hscn7cjrn5u0r4tbgkbj1fko.apps.googleusercontent.com";
+		            options.ClientSecret = "wdfPY6t8H8cecgjlxud__4Gh";
+	            })
+				.AddScheme<SimpleOptions, SimpleAuthHandler>("fromStartup1", o => o.DisplayMessage = "I am from startup..")
                 .AddScheme<SimpleOptions, SimpleAuthHandler>("fromStartup2", o => o.DisplayMessage = "Me too!");
         }
 
